@@ -23,12 +23,12 @@ class PostPagesTests(TestCase):
             description='Тестовое описание',
         )
         small_gif = (
-             b'\x47\x49\x46\x38\x39\x61\x02\x00'
-             b'\x01\x00\x80\x00\x00\x00\x00\x00'
-             b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
-             b'\x00\x00\x00\x2C\x00\x00\x00\x00'
-             b'\x02\x00\x01\x00\x00\x02\x02\x0C'
-             b'\x0A\x00\x3B'
+            b'\x47\x49\x46\x38\x39\x61\x02\x00'
+            b'\x01\x00\x80\x00\x00\x00\x00\x00'
+            b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
+            b'\x00\x00\x00\x2C\x00\x00\x00\x00'
+            b'\x02\x00\x01\x00\x00\x02\x02\x0C'
+            b'\x0A\x00\x3B'
         )
         uploaded = SimpleUploadedFile(
             name='small.gif',
@@ -275,8 +275,7 @@ class FollowTest(TestCase):
         self.authorized_follower.get(
             reverse('posts:profile_follow', kwargs={
                 'username': FollowTest.following.username
-                }
-            )
+            })
         )
         self.assertEqual(Follow.objects.count(), follow_count + 1)
         self.assertTrue(
@@ -288,10 +287,8 @@ class FollowTest(TestCase):
         self.authorized_follower.get(
             reverse('posts:profile_unfollow', kwargs={
                 'username': FollowTest.following.username
-                }
-            )
+            })
         )
-        print(Follow.objects.count())
         self.assertFalse(
             Follow.objects.filter(
                 user=FollowTest.follower,
@@ -301,10 +298,8 @@ class FollowTest(TestCase):
         self.authorized_follower.get(
             reverse('posts:profile_follow', kwargs={
                 'username': FollowTest.follower.username
-                }
-            )
+            })
         )
-        print(Follow.objects.count())
         self.assertFalse(
             Follow.objects.filter(
                 user=FollowTest.follower,

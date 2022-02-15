@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from yatube.settings import NUM_POSTS_PER_PAGE
 
 from posts.forms import CommentForm, PostForm
-from posts.models import Group, Post, User, Follow
+from posts.models import Follow, Group, Post, User
 
 
 def paginator(post_list, request):
@@ -44,8 +44,7 @@ def profile(request, username):
     if (
         user.is_authenticated
         and author != user
-        and
-        Follow.objects.filter(user=user, author=author).exists()
+        and Follow.objects.filter(user=user, author=author).exists()
     ):
         following = True
     else:
@@ -144,7 +143,6 @@ def profile_follow(request, username):
         Follow.objects.filter(user=request.user, author=author).exists()
     ):
         Follow.objects.create(user=request.user, author=author)
-        return redirect('posts:profile', username=username)
     return redirect('posts:profile', username=username)
 
 
