@@ -270,7 +270,7 @@ class FollowTest(TestCase):
         self.authorized_follower.force_login(FollowTest.follower)
         self.authorized_following.force_login(FollowTest.following)
 
-    def test_follow_unfollow(self):
+    def test_follow(self):
         follow_count = Follow.objects.count()
         self.authorized_follower.get(
             reverse('posts:profile_follow', kwargs={
@@ -285,17 +285,6 @@ class FollowTest(TestCase):
             ).exists()
         )
         self.authorized_follower.get(
-            reverse('posts:profile_unfollow', kwargs={
-                'username': FollowTest.following.username
-            })
-        )
-        self.assertFalse(
-            Follow.objects.filter(
-                user=FollowTest.follower,
-                author=FollowTest.following
-            ).exists()
-        )
-        self.authorized_follower.get(
             reverse('posts:profile_follow', kwargs={
                 'username': FollowTest.follower.username
             })
@@ -304,6 +293,19 @@ class FollowTest(TestCase):
             Follow.objects.filter(
                 user=FollowTest.follower,
                 author=FollowTest.follower
+            ).exists()
+        )
+
+    def test_unfollow(self):
+        self.authorized_follower.get(
+            reverse('posts:profile_unfollow', kwargs={
+                'username': FollowTest.following.username
+            })
+        )
+        self.assertFalse(
+            Follow.objects.filter(
+                user=FollowTest.follower,
+                author=FollowTest.following
             ).exists()
         )
 

@@ -32,7 +32,11 @@ class Post(models.Model):
         verbose_name='Текст поста',
         help_text='Текст нового поста'
     )
-    pub_date = models.DateTimeField(auto_now_add=True)
+    pub_date = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Время и дата создания',
+        help_text='Время и дата, когда пост был написан'
+    )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
@@ -52,7 +56,7 @@ class Post(models.Model):
     image = models.ImageField(
         'Картинка',
         upload_to='posts/',
-        blank=True
+        blank=True,
     )
 
     class Meta:
@@ -83,7 +87,14 @@ class Comment(models.Model):
         verbose_name='Комментарий',
         help_text='Оставьте ваш комментарий здесь'
     )
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Время и дата создания',
+        help_text='Время и дата, когда коммент был написан'
+    )
+
+    def __str__(self):
+        return f"«{self.text[0:15]}...»"
 
 
 class Follow(models.Model):
@@ -91,17 +102,24 @@ class Follow(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name='follower',
+        verbose_name='Подписчик',
+        help_text='Подписанный пользователь'
     )
     author = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='following',
+        verbose_name='Автор',
+        help_text='Автор, на которого можно подписаться'
     )
 
     class Meta:
-        constraints = [
+        constraints = (
             models.UniqueConstraint(
-                fields=['user', 'author'],
+                fields=('user', 'author'),
                 name='user_is_author',
             )
-        ]
+        )
+
+    def __str__(self):
+        return f"{self.user.username} подписан на {self.author.username}"

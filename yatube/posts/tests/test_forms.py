@@ -97,12 +97,6 @@ class CommentsCreateTest(TestCase):
             group=cls.group,
         )
 
-        cls.comment = Comment.objects.create(
-            text='Первый нах',
-            author=cls.user,
-            post=cls.post,
-        )
-
     def setUp(self):
         self.guest_client = Client()
         self.authorized_client = Client()
@@ -112,7 +106,7 @@ class CommentsCreateTest(TestCase):
         post = CommentsCreateTest.post
         comments_count = Comment.objects.count()
         form_data = {
-            'text': 'Первый нах!',
+            'text': 'Тестовый комментарий',
         }
         self.authorized_client.post(
             reverse('posts:add_comment', kwargs={'post_id': post.id}),
@@ -122,7 +116,7 @@ class CommentsCreateTest(TestCase):
         self.assertEqual(Comment.objects.count(), comments_count + 1)
         self.assertTrue(
             Comment.objects.filter(
-                text='Первый нах',
+                text='Тестовый комментарий',
                 author=CommentsCreateTest.user,
                 post=CommentsCreateTest.post
             ).exists()
