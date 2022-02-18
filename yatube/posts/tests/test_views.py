@@ -64,6 +64,7 @@ class PostPagesTests(TestCase):
                 'posts/create_post.html'
             ),
             reverse('posts:post_create'): 'posts/create_post.html',
+            reverse('posts:follow_index'): 'posts/follow.html',
         }
         for page, template in templates_pages_names.items():
             with self.subTest(page=page):

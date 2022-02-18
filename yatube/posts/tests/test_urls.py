@@ -2,6 +2,7 @@ from http import HTTPStatus
 
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
+from django.urls import reverse
 from posts.models import Group, Post
 
 User = get_user_model()
@@ -66,8 +67,9 @@ class PostURLTests(TestCase):
     def test_posts_url__exists_at_desired_location_authorized(self):
         post = PostURLTests.post
         urls = [
-            f'/posts/{post.id}/edit/',
-            '/create/',
+            reverse('posts:post_edit', kwargs={'post_id': post.id}),
+            reverse('posts:post_create'),
+            reverse('posts:follow_index'),
         ]
         for url in urls:
             with self.subTest(url=url):
@@ -91,3 +93,20 @@ class PostURLTests(TestCase):
             with self.subTest(url=url):
                 response = self.authorized_client.get(url)
                 self.assertTemplateUsed(response, template)
+
+    def test_posts_redirect_authorized(self):
+        post = PostURLTests.post
+        urls = [
+            reverse('posts:add_comment', kwargs={'post_id': post.id}),
+            reverse('posts:profile_follow', kwargs={'username': post.author}),
+            reverse(
+                'posts:profile_unfollow',
+                kwargs={'username': post.author}
+            ),
+        ]
+        for url in urls:
+            with self.subTest(url=url):
+                response_1 = self.guest_client.get(url)
+                self.assertNotEqual(response_1.status_code, HTTPStatus.OK)
+                response_2 = self.authorized_client.get(url)
+                self.assertEqual(response_2.status_code, HTTPStatus.FOUND)
