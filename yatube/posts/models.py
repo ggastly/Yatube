@@ -57,6 +57,7 @@ class Post(models.Model):
         'Картинка',
         upload_to='posts/',
         blank=True,
+        null=True
     )
 
     class Meta:
@@ -118,7 +119,7 @@ class Follow(models.Model):
             models.UniqueConstraint(
                 fields=('user', 'author'),
                 name='user_is_author',
-            )
+            ),
         )
 
     def __str__(self):

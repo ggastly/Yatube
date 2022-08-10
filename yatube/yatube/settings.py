@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '9=-b^h+$k)ttp@q8&e61^-tz+t6q8&(euolo9p+2_#*+x&7)%l'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
@@ -31,6 +31,8 @@ ALLOWED_HOSTS = [
     'testserver',
     '[::1]',
     'testserver',
+    'zolkovnet.pythonanywhere.com',
+    'www.zolkovnet.pythonanywhere.com'
 ]
 
 LOGIN_URL = 'users:login'
@@ -61,6 +63,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sorl.thumbnail',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -71,11 +74,16 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+]
+
+INTERNAL_IPS = [
+    '127.0.0.1',
 ]
 
 ROOT_URLCONF = 'yatube.urls'
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'), )
 
 TEMPLATES = [
     {
