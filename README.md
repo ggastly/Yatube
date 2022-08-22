@@ -8,7 +8,7 @@ Yatube - соц.сеть для публикации дневников.
 ### Установка
 Склонировать репозиторий себе:
 ```
-git clone https://github.com/Lulufox/api_yamdb.git
+git@github.com:ggastly/Yatube.git
 ```
 Зайти в папку с проектом:
 ```
